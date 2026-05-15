@@ -1,4 +1,25 @@
 #!/usr/bin/env python3
+#** *****************************************************************************
+# *
+# * If not stated otherwise in this file or this component's LICENSE file the
+# * following copyright and licenses apply:
+# *
+# * Copyright 2025 RDK Management
+# *
+# * Licensed under the Apache License, Version 2.0 (the "License");
+# * you may not use this file except in compliance with the License.
+# * You may obtain a copy of the License at
+# *
+# * http://www.apache.org/licenses/LICENSE-2.0
+# *
+# * Unless required by applicable law or agreed to in writing, software
+# * distributed under the License is distributed on an "AS IS" BASIS,
+# * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# * See the License for the specific language governing permissions and
+# * limitations under the License.
+# *
+#* ******************************************************************************
+
 import argparse
 import unittest
 import os
@@ -34,19 +55,19 @@ class CompletionTests(unittest.TestCase):
     def test_partial_option(self):
         os.environ['COMP_WORDS'] = '--'
         options = get_completion(self.parser)
-        self.assertEqual(2,len(options))
+        self.assertEqual(len(options),2)
         self.assertIn('--option', options)
         self.assertIn('--help', options)
 
     def test_first_option(self):
         os.environ['COMP_WORDS'] = '-o'
         options = get_completion(self.parser)
-        self.assertEqual(6,len(options))
+        self.assertEqual(len(options),6)
 
     def test_partial_positional(self):
         os.environ['COMP_WORDS'] = 'choice'
         options = get_completion(self.parser)
-        self.assertEqual(2,len(options))
+        self.assertEqual(len(options),2)
         self.assertIn('choice1', options)
         self.assertIn('choice2', options)
 
@@ -58,19 +79,19 @@ class CompletionTests(unittest.TestCase):
     def test_subcommand(self):
         os.environ['COMP_WORDS'] = 'subcommand1'
         options = get_completion(self.parser)
-        self.assertEqual(0,len(options))
+        self.assertEqual(len(options),1)
 
     def test_subcommand_choice(self):
-         os.environ['COMP_WORDS'] = 'sub sub'
-         options = get_completion(self.parser)
-         self.assertEqual(1,len(options))
-         self.assertIn('sub2sp1', options)
+        os.environ['COMP_WORDS'] = 'sub sub'
+        options = get_completion(self.parser)
+        self.assertEqual(len(options),1)
+        self.assertIn('sub2sp1', options)
 
     def test_intermixed_subcommand(self):
-          os.environ['COMP_WORDS'] = '--opt sub'
-          options = get_completion(self.parser)
-          self.assertEqual(1,len(options))
-          self.assertIn('sub2sp1', options)
+        os.environ['COMP_WORDS'] = '--opt sub'
+        options = get_completion(self.parser)
+        self.assertEqual(len(options),1)
+        self.assertIn('sub2sp1', options)
 
 if __name__ == '__main__':
-     unittest.main(verbosity=3)
+    unittest.main(verbosity=3)

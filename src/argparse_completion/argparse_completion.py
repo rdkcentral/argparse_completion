@@ -1,10 +1,30 @@
 #!/usr/bin/env python
+#** *****************************************************************************
+# *
+# * If not stated otherwise in this file or this component's LICENSE file the
+# * following copyright and licenses apply:
+# *
+# * Copyright 2025 RDK Management
+# *
+# * Licensed under the Apache License, Version 2.0 (the "License");
+# * you may not use this file except in compliance with the License.
+# * You may obtain a copy of the License at
+# *
+# * http://www.apache.org/licenses/LICENSE-2.0
+# *
+# * Unless required by applicable law or agreed to in writing, software
+# * distributed under the License is distributed on an "AS IS" BASIS,
+# * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# * See the License for the specific language governing permissions and
+# * limitations under the License.
+# *
+#* ******************************************************************************
 from __future__ import annotations
 
 import argparse
 import os
 import re
-from typing import Dict, List, Mapping, MutableMapping, Optional, Sequence
+from typing import Dict, List, Mapping, Sequence
 
 
 def get_completion(parser: argparse.ArgumentParser) -> List[str]:
@@ -32,7 +52,7 @@ def _bash_completion(parser: argparse.ArgumentParser) -> List[str]:
     args_dict = _introspect_parser(parser)
     comp_words = os.getenv("COMP_WORDS", "")
     # Remove the program name if present and split into tokens
-    words: List[str] = re.sub(r'^.*{}\s'.format(parser.prog),"", comp_words).split()
+    words: List[str] = re.sub(r'^.*{}\s'.format(re.escape(parser.prog)),"", comp_words).split()
     choice_tree = _choices_for_words(args_dict, words)
     return _flatten_choices(choice_tree)
 
@@ -92,7 +112,7 @@ def _choices_for_words(args_dict: Dict, remaining: Sequence[str]) -> Dict:
                     # Recurse into the matching sub-tree with remaining tail
                     return _choices_for_words(sub_choices[token], remaining[idx+1:])
         # No subcommand matched; fall back to evaluating last token only
-        return _choices_for_words(args_dict, remaining[-1])
+        return _choices_for_words(args_dict, remaining[-1:])
 
     # Single token: filter visible choices by prefix/containment rules
     token = remaining[-1]
