@@ -98,7 +98,7 @@ def _choices_for_words(args_dict: Dict, remaining: Sequence[str]) -> Dict:
       }
     """
     if not remaining:
-        args_dict.pop('optionals')
+        args_dict.pop('optionals', None)
         return args_dict
 
     # If there are multiple tokens, try to walk down subcommands.

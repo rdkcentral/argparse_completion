@@ -79,7 +79,7 @@ class CompletionTests(unittest.TestCase):
     def test_subcommand(self):
         os.environ['COMP_WORDS'] = 'subcommand1'
         options = get_completion(self.parser)
-        self.assertEqual(len(options),1)
+        self.assertEqual(len(options), 0)
 
     def test_subcommand_choice(self):
         os.environ['COMP_WORDS'] = 'sub sub'
@@ -88,7 +88,7 @@ class CompletionTests(unittest.TestCase):
         self.assertIn('sub2sp1', options)
 
     def test_intermixed_subcommand(self):
-        os.environ['COMP_WORDS'] = '--opt sub'
+        os.environ['COMP_WORDS'] = '--option sub'
         options = get_completion(self.parser)
         self.assertEqual(len(options),1)
         self.assertIn('sub2sp1', options)

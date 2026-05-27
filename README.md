@@ -9,7 +9,7 @@ It works by:
 
 1.  Having your Python CLI detect when it’s being invoked for completion (via an env var).
 2.  Returning a newline-delimited list of completion candidates.
-3.  Letting a small Bash function feed the current shell state (`COMP_WORDS`, `COMP_CWORD`) into your program and use its output as completions.
+3.  Letting a small Bash function feed the current shell state (`COMP_WORDS`) into your program and use its output as completions.
 
 ***
 
@@ -41,7 +41,7 @@ Your CLI should:
 *   Create an `ArgumentParser` whose `prog` matches the command name you’ll complete for (the example uses `example_argparse_app.py`).
 *   When the `_ARGPARSE_COMPLETE` environment variable is set, call `argparse_completion.get_completion(parser)` and print candidates one-per-line, then exit.
 
-**[Example python app code](`examples/example_argparse_app.py`)**
+**[Example python app code](examples/example_argparse_app.py)**
 
 Key points from the example:
 
@@ -59,7 +59,7 @@ The Bash side:
 *   Invokes your program with `_ARGPARSE_COMPLETE=complete_bash`
 *   Reads the program output into `COMPREPLY`
 
-**[Example bash completion script](`examples/example_bash_completion.sh`)**
+**[Example bash completion script](examples/example_bash_completion.sh)**
 
 What matters here:
 *   Bash passes **all current tokens** via `COMP_WORDS="${COMP_WORDS[*]}"` and the **cursor index** via `COMP_CWORD=$COMP_CWORD`.
@@ -88,7 +88,7 @@ Given the example parser, you should see completion candidates like:
 
 * `--upper`
 * `hello`
-*`goodbye`
+* `goodbye`
 
 #### Option B: Enable permanently
 
