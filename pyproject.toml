@@ -1,0 +1,8 @@
+[project]
+name = "argparse_completion"
+version = "0.0.1"
+dependencies = []
+[tool.setuptools.packages.find]
+include = ["argparse_completion"]
+where = ["src"]
+namespaces = false

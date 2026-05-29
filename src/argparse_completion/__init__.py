@@ -1,0 +1,1 @@
+from .argparse_completion import get_completion
